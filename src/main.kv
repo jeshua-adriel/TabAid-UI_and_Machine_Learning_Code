@@ -1,0 +1,1091 @@
+# ==================================================
+# Tab-Aid Main UI Layout
+# ==================================================
+# --------------------------------------------------
+# GLOBAL FONTS
+# --------------------------------------------------
+#:set FONT_NUNITO "assets/fonts/Nunito-Regular.ttf"
+#:set FONT_NUNITO_B "assets/fonts/Nunito-Bold.ttf"
+#:set FONT_GORDITAS "assets/fonts/Gorditas-Regular.ttf"
+#:set FONT_GORDITAS_B "assets/fonts/Gorditas-Bold.ttf"
+# --------------------------------------------------
+# GLOBAL HEADING STYLES
+# --------------------------------------------------
+<H1@Label>:
+    font_name: FONT_NUNITO_B
+    font_size: "32sp"
+    color: 0.35, 0.25, 0.45, 1
+    halign: "center"
+    valign: "middle"
+    text_size: self.size
+
+<H2@Label>:
+    font_name: FONT_NUNITO_B
+    font_size: "26sp"
+    color: 0.35, 0.25, 0.45, 1
+    halign: "center"
+    valign: "middle"
+    text_size: self.size
+
+<H3@Label>:
+    font_name: FONT_NUNITO_B
+    font_size: "22sp"
+    color: 0.35, 0.25, 0.45, 1
+    halign: "left"
+    valign: "middle"
+    text_size: self.size
+# --------------------------------------------------
+# UI Global Style
+# --------------------------------------------------
+<Label>:
+    font_name: FONT_NUNITO
+    font_size: "20sp"
+    color: 0.35, 0.25, 0.45, 1
+
+
+<Button>:
+    # Font for all buttons (Gorditas)
+    font_name: FONT_GORDITAS
+    font_size: "24sp"
+    color: 0.28, 0.22, 0.32, 1
+
+    # Keep text centered nicely
+    halign: "center"
+    valign: "middle"
+    text_size: self.size
+
+    # Remove default image backgrounds
+    background_normal: ""
+    background_down: ""
+    background_disabled_normal: ""
+    background_color: 0, 0, 0, 0
+
+    canvas.before:
+        Color:
+            rgba: 0.92, 0.95, 1.0, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [20]
+
+    canvas.after:
+        Color:
+            rgba: 0.45, 0.35, 0.55, .12
+        Line:
+            rounded_rectangle: (self.x, self.y, self.width, self.height, 20)
+            width: 1.1
+
+
+<ToggleButton>:
+    # Toggle buttons usually look better with Nunito (cleaner)
+    font_name: FONT_NUNITO
+    font_size: "20sp"
+    color: 0.28, 0.22, 0.32, 1
+
+    background_normal: ""
+    background_down: ""
+
+    size_hint_y: None
+    height: dp(70)
+
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [18]
+
+        Color:
+            rgba: (0.55, 0.82, 1.0, 1) if self.state == "down" else (0, 0, 0, 0)
+        RoundedRectangle:
+            pos: self.x + dp(8), self.y + dp(10)
+            size: dp(10), self.height - dp(20)
+            radius: [8]
+
+        Color:
+            rgba: (0.90, 0.97, 1.0, 0.9) if self.state == "down" else (0, 0, 0, 0)
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [18]
+
+    canvas.after:
+        Color:
+            rgba: (0.40, 0.65, 0.95, 0.9) if self.state == "down" else (0.45, 0.35, 0.55, 0.14)
+        Line:
+            rounded_rectangle: (self.x, self.y, self.width, self.height, 18)
+            width: 2.2 if self.state == "down" else 1.1
+
+
+# --------------------------------------------------
+# POPUP STYLES (Touch-friendly)
+# --------------------------------------------------
+<Popup>:
+    auto_dismiss: False
+    separator_height: 0
+
+    # Title styling
+    title_font: FONT_NUNITO_B
+    title_size: '32sp'
+    title_align: 'center'
+    title_color: 0.20, 0.20, 0.25, 1   # darker for readability
+
+    # Remove default grey popup background
+    background: ""
+    background_color: 0,0,0,0
+
+    # Custom pastel popup card
+    canvas.before:
+        Color:
+            rgba: 0.96, 0.97, 1, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [25]
+
+    canvas.after:
+        Color:
+            rgba: 0.45, 0.35, 0.55, .12
+        Line:
+            rounded_rectangle: (self.x, self.y, self.width, self.height, 25)
+            width: 1.2
+
+
+# --------------------------------------------------
+# START SCREEN
+# --------------------------------------------------
+<StartScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: dp(20)
+        spacing: dp(20)
+
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1
+            Rectangle:
+                source: "assets/images/backgrounds/main_bg.png"
+                pos: self.pos
+                size: self.size
+
+        # --- Top spacer (push content downward slightly) ---
+        Widget:
+            size_hint_y: 0.25
+
+        # --- Logo container ---
+        AnchorLayout:
+            size_hint_y: None
+            height: dp(220)
+            anchor_x: "center"
+            anchor_y: "center"
+
+            Image:
+                source: "assets/images/logos/Tab-Aid_logo.png"
+                allow_stretch: True
+                keep_ratio: True
+                size_hint_x: 0.7
+                size_hint_y: None
+                height: dp(180)
+
+        # --- Space between logo and Start button ---
+        Widget:
+            size_hint_y: 0.10
+
+        BoxLayout:
+            orientation: "vertical"
+            size_hint_y: None
+            height: dp(215)
+            spacing: dp(25)
+            pos_hint: {"center_x": 0.5}
+            padding: 0, 0
+
+            Button:
+                text: "Start"
+                font_size: '30sp'
+                size_hint: None, None
+                size: dp(328), dp(95)
+                pos_hint: {"center_x": 0.5}
+                on_press: app.play_click()
+                on_release: root.go_to_login()
+
+            Button:
+                text: "Exit"
+                font_size: '30sp'
+                size_hint: None, None
+                size: dp(328), dp(95)
+                pos_hint: {"center_x": 0.5}
+                on_press: app.play_click()
+                on_release: root.show_exit_popup()
+
+        # --- Bottom spacer ---
+        Widget:
+            size_hint_y: 0.25
+
+
+# --------------------------------------------------
+# LOGIN / USER SELECTION SCREEN
+# --------------------------------------------------
+<LoginScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: dp(20)
+        spacing: dp(16)
+
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1
+            Rectangle:
+                source: "assets/images/backgrounds/main_bg.png"
+                pos: self.pos
+                size: self.size
+
+        # ---- Top Bar ----
+        BoxLayout:
+            size_hint_y: None
+            height: dp(60)
+
+            canvas.before:
+                Color:
+                    rgba: 0.88, 0.94, 1.0, 0.92
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [18]
+
+            Button:
+                text: "< Back"
+                size_hint_x: None
+                width: dp(140)
+                on_press: app.play_click()
+                on_release: root.go_back()
+
+            Widget:
+
+        # ---- Main Content ----
+        BoxLayout:
+            spacing: dp(20)
+
+            # -------------------------
+            # USER LIST
+            # -------------------------
+            ScrollView:
+                size_hint_x: 0.65
+
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 0.92
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [22]
+
+                canvas.after:
+                    Color:
+                        rgba: 0.45, 0.35, 0.55, .14
+                    Line:
+                        rounded_rectangle: (self.x, self.y, self.width, self.height, 22)
+                        width: 1.2
+
+                GridLayout:
+                    id: user_list
+                    cols: 1
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: dp(8)
+                    padding: dp(12)
+
+            # -------------------------
+            # RIGHT PANEL
+            # -------------------------
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_x: 0.35
+                padding: dp(12)
+                spacing: dp(12)
+
+                canvas.before:
+                    Color:
+                        rgba: 1.0, 0.94, 0.97, 0.92
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [22]
+
+                # ---- User Info Card ----
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: 0.72
+                    padding: dp(16)
+                    spacing: dp(8)
+
+                    canvas.before:
+                        Color:
+                            rgba: 1, 1, 1, 0.88
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [20]
+
+                    canvas.after:
+                        Color:
+                            rgba: 0.45, 0.35, 0.55, .10
+                        Line:
+                            rounded_rectangle: (self.x, self.y, self.width, self.height, 20)
+                            width: 1.1
+
+                    Label:
+                        text: "User Information"
+                        font_size: "24sp"
+                        bold: True
+                        size_hint_y: None
+                        height: dp(36)
+
+                    Label:
+                        text: "Name: " + root.selected_user_name
+                        halign: "left"
+                        valign: "middle"
+                        text_size: self.size
+
+                    Label:
+                        text: "Age: " + root.selected_user_age
+                        halign: "left"
+                        valign: "middle"
+                        text_size: self.size
+
+                    Label:
+                        text: "Gender: " + root.selected_user_gender
+                        halign: "left"
+                        valign: "middle"
+                        text_size: self.size
+
+                    Widget:
+                        size_hint_y: None
+                        height: dp(6)
+
+                    Label:
+                        text: "Previous Scores"
+                        font_size: "22sp"
+                        bold: True
+                        size_hint_y: None
+                        height: dp(32)
+
+                    Label:
+                        text: "Game 1: " + root.selected_game1
+                        halign: "left"
+                        valign: "middle"
+                        text_size: self.size
+
+                    Label:
+                        text: "Game 2: " + root.selected_game2
+                        halign: "left"
+                        valign: "middle"
+                        text_size: self.size
+
+                    Label:
+                        text: "Game 3: " + root.selected_game3
+                        halign: "left"
+                        valign: "middle"
+                        text_size: self.size
+
+                    Widget:
+
+                # ---- Bottom Action Buttons ----
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: 0.28
+                    spacing: dp(10)
+
+                    Button:
+                        text: "+"
+                        font_size: "28sp"
+                        size_hint_y: None
+                        height: dp(70)
+                        on_press: app.play_click()
+                        on_release: root.show_add_user_popup()
+
+                    Button:
+                        text: "🗑"
+                        font_size: "26sp"
+                        size_hint_y: None
+                        height: dp(70)
+                        on_press: app.play_click()
+                        on_release: root.show_delete_popup()
+
+                    Button:
+                        text: "✔"
+                        font_size: "26sp"
+                        size_hint_y: None
+                        height: dp(70)
+                        on_press: app.play_click()
+                        on_release: root.proceed()
+
+
+# --------------------------------------------------
+# MAIN MENU SCREEN
+# --------------------------------------------------
+<MenuScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: dp(20)
+        spacing: dp(20)
+
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1
+            Rectangle:
+                source: "assets/images/backgrounds/main_bg.png"
+                pos: self.pos
+                size: self.size
+
+        # ---- Top Bar ----
+        BoxLayout:
+            size_hint_y: None
+            height: dp(60)
+
+            canvas.before:
+                Color:
+                    rgba: 0.92, 1.0, 0.94, 0.92
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [18]
+
+            Button:
+                text: "< Back"
+                size_hint_x: None
+                width: dp(140)
+                on_press: app.play_click()
+                on_release: root.go_back()
+
+            Label:
+                text: "Main Menu"
+                halign: 'center'
+                valign: 'middle'
+                color: 0.35, 0.25, 0.45, 1
+
+            Button:
+                text: "⚙"
+                font_size: '24sp'
+                size_hint_x: None
+                width: dp(100)
+                on_press: app.play_click()
+                on_release: root.open_settings()
+
+        # ---- Spacing ----
+        Widget:
+            size_hint_y: 0.2
+
+        # ---- Game Selection ----
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: dp(280)
+            spacing: dp(30)
+            pos_hint: {"center_x": 0.5}
+
+            canvas.before:
+                Color:
+                    rgba: 1.0, 1.0, 1.0, 0.75
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [24]
+
+            Button:
+                text: "Game 1"
+                font_size: '22sp'
+                on_press: app.play_click(); root.start_game("game1")
+
+            Button:
+                text: "Game 2"
+                font_size: '22sp'
+                on_press: app.play_click(); root.start_game("game2")
+
+            Button:
+                text: "Game 3"
+                font_size: '22sp'
+                on_press: app.play_click(); root.start_game("game3")
+
+        Widget:
+            size_hint_y: 0.4
+
+
+# --------------------------------------------------
+# SETTINGS SCREEN
+# --------------------------------------------------
+<SettingsScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: dp(20)
+
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1
+            Rectangle:
+                source: "assets/images/backgrounds/main_bg.png"
+                pos: self.pos
+                size: self.size
+
+        # ---- Top Bar ----
+        BoxLayout:
+            size_hint_y: None
+            height: dp(60)
+
+            canvas.before:
+                Color:
+                    rgba: 0.92, 0.95, 1.0, 0.92
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [18]
+
+            Button:
+                text: "< Back"
+                size_hint_x: None
+                width: dp(140)
+                on_press: app.play_click()
+                on_release: root.go_back()
+
+            Widget:
+
+        # ---- Settings Card ----
+        AnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'center'
+
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint: None, None
+                size: dp(520), dp(260)
+                padding: dp(30)
+                spacing: dp(25)
+
+                canvas.before:
+                    Color:
+                        rgba: 1, .88, .94, 0.94
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [30]
+
+                canvas.after:
+                    Color:
+                        rgba: 0.45, 0.2, 0.35, .10
+                    Line:
+                        rounded_rectangle: (self.x, self.y, self.width, self.height, 30)
+                        width: 1.2
+
+                Label:
+                    text: "Settings"
+                    font_name: FONT_GORDITAS_B
+                    font_size: '28sp'
+                    color: .65, .15, .35, 1
+                    size_hint_y: None
+                    height: dp(50)
+
+                Label:
+                    text: "Volume"
+                    font_name: FONT_NUNITO_B
+                    font_size: '22sp'
+                    color: .4, .1, .2, 1
+                    size_hint_y: None
+                    height: dp(35)
+
+                Slider:
+                    id: volume_slider
+                    min: 0
+                    max: 100
+                    value: root.volume
+                    on_value: root.on_volume_change(self.value)
+
+
+# --------------------------------------------------
+# GAME 1 SCREEN (DRAG & DROP SHAPES)
+# --------------------------------------------------
+<Game1Screen>:
+    BoxLayout:
+        orientation: 'horizontal'
+        padding: dp(20)
+        spacing: dp(20)
+
+        canvas.before:
+            Color:
+                rgba: 0.97, 0.96, 1.0, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_x: 0.4
+            spacing: dp(16)
+
+            Label:
+                text: "Pick and drag!"
+                font_size: '22sp'
+                color: 0.35, 0.25, 0.45, 1
+                size_hint_y: None
+                height: dp(40)
+
+            AnchorLayout:
+                id: spawn_area
+                anchor_x: 'center'
+                anchor_y: 'center'
+
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [22]
+
+                canvas.after:
+                    Color:
+                        rgba: 0.45, 0.35, 0.55, .14
+                    Line:
+                        rounded_rectangle: (self.x, self.y, self.width, self.height, 22)
+                        width: 1.2
+
+            Label:
+                id: feedback_label
+                text: ""
+                font_size: '22sp'
+                color: 0.35, 0.25, 0.45, 1
+                size_hint_y: None
+                height: dp(45)
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_x: 0.6
+            spacing: dp(18)
+
+            BoxLayout:
+                size_hint_y: None
+                height: dp(70)
+
+                Button:
+                    text: "< Back"
+                    size_hint_x: None
+                    width: dp(140)
+                    on_press: app.play_click()
+                    on_release: root.go_back()
+
+                Label:
+                    id: round_label
+                    text: "Round 1 / 5"
+                    font_size: '22sp'
+                    color: 0.35, 0.25, 0.45, 1
+
+                Label:
+                    id: score_label
+                    text: "Score: 0"
+                    font_size: '22sp'
+                    color: 0.35, 0.25, 0.45, 1
+                    size_hint_x: None
+                    width: dp(160)
+
+            Label:
+                id: hint_label
+                text: "Drag the shape to the correct name"
+                font_size: '22sp'
+                color: 0.35, 0.25, 0.45, 1
+                size_hint_y: None
+                height: dp(40)
+
+            BoxLayout:
+                orientation: 'vertical'
+                padding: [dp(10), dp(10), dp(10), dp(10)]
+
+                DropZone:
+                    id: dz_circle
+                    zone_name: "circle"
+                    display_text: "CIRCLE"
+
+                Widget:
+                    size_hint_y: None
+                    height: dp(50)
+
+                DropZone:
+                    id: dz_square
+                    zone_name: "square"
+                    display_text: "SQUARE"
+
+                Widget:
+                    size_hint_y: None
+                    height: dp(50)
+
+                DropZone:
+                    id: dz_triangle
+                    zone_name: "triangle"
+                    display_text: "TRIANGLE"
+
+            Widget:
+
+
+<DropZone@BoxLayout>:
+    zone_name: ""
+    display_text: ""
+    size_hint_y: None
+    height: dp(110)
+    padding: [dp(18), dp(18)]
+    canvas.before:
+        Color:
+            rgba: 1.0, 0.98, 0.95, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [20]
+    canvas.after:
+        Color:
+            rgba: 0.45, 0.35, 0.55, .14
+        Line:
+            rounded_rectangle: (self.x, self.y, self.width, self.height, 20)
+            width: 1.2
+
+    Label:
+        text: root.display_text
+        font_size: '26sp'
+        bold: True
+        color: 0.35, 0.25, 0.45, 1
+
+
+<DraggableShape>:
+    size_hint: None, None
+    size: dp(160), dp(160)
+
+    canvas.before:
+        Color:
+            rgba: 0.90, 0.97, 1.0, 0.9 if self.dragging else 0
+        RoundedRectangle:
+            pos: self.x - dp(10), self.y - dp(10)
+            size: self.width + dp(20), self.height + dp(20)
+            radius: [26]
+
+
+# --------------------------------------------------
+# GAME 2 SCREEN (TRACE + CONNECT DOTS)
+# --------------------------------------------------
+<Game2Screen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: dp(16)
+        spacing: dp(12)
+
+        # Background image (KEEP)
+        canvas.before:
+            Rectangle:
+                source: "assets/images/backgrounds/main_bg.png"
+                pos: self.pos
+                size: self.size
+
+        # ---- Top Bar ----
+        BoxLayout:
+            size_hint_y: None
+            height: dp(90)
+            spacing: dp(10)
+            padding: [dp(6), dp(6), dp(6), dp(6)]
+
+            Button:
+                text: "< Back"
+                size_hint_x: None
+                width: dp(150)
+                on_press: app.play_click()
+                on_release: root.go_back()
+
+            Label:
+                id: step_label
+                text: "Task 1 / 5"
+                font_size: "22sp"
+                halign: "center"
+                valign: "middle"
+                text_size: self.size
+
+            BoxLayout:
+                orientation: "vertical"
+                size_hint_x: None
+                width: dp(340)
+                spacing: dp(2)
+
+                Label:
+                    id: score_label
+                    text: "Avg: 0%"
+                    font_size: "22sp"
+                    halign: "right"
+                    valign: "middle"
+                    text_size: self.size
+
+                GridLayout:
+                    cols: 5
+                    size_hint_y: None
+                    height: dp(30)
+                    spacing: dp(6)
+
+                    Label:
+                        id: s1_label
+                        text: "S1: 0%"
+                        font_size: "16sp"
+                        halign: "center"
+                        valign: "middle"
+                        text_size: self.size
+
+                    Label:
+                        id: s2_label
+                        text: "S2: 0%"
+                        font_size: "16sp"
+                        halign: "center"
+                        valign: "middle"
+                        text_size: self.size
+
+                    Label:
+                        id: s3_label
+                        text: "S3: 0%"
+                        font_size: "16sp"
+                        halign: "center"
+                        valign: "middle"
+                        text_size: self.size
+
+                    Label:
+                        id: s4_label
+                        text: "S4: 0%"
+                        font_size: "16sp"
+                        halign: "center"
+                        valign: "middle"
+                        text_size: self.size
+
+                    Label:
+                        id: s5_label
+                        text: "S5: 0%"
+                        font_size: "16sp"
+                        halign: "center"
+                        valign: "middle"
+                        text_size: self.size
+
+        # ---- Board Area (MAKE CANVAS A BIT SMALLER) ----
+        FloatLayout:
+            id: g2_board
+            size_hint_y: 0.78   # ✅ smaller so buttons never hide
+
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 0.65
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [24]
+
+            # canvas bounds
+            Widget:
+                id: g2_canvas
+                size_hint: 0.94, 0.88
+                pos_hint: {"center_x": 0.5, "center_y": 0.55}
+
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [22]
+
+                canvas.after:
+                    Color:
+                        rgba: 0.45, 0.35, 0.55, .14
+                    Line:
+                        rounded_rectangle: (self.x, self.y, self.width, self.height, 22)
+                        width: 1.2
+
+            Image:
+                id: guide_img
+                source: ""
+                allow_stretch: True
+                keep_ratio: False
+                size_hint: None, None
+                pos: g2_canvas.pos
+                size: g2_canvas.size
+
+            PaintPad:
+                id: paint_pad
+                size_hint: None, None
+                pos: g2_canvas.pos
+                size: g2_canvas.size
+
+        # ---- Bottom Controls (ALWAYS VISIBLE) ----
+        BoxLayout:
+            size_hint_y: None
+            height: dp(76)
+            spacing: dp(12)
+
+            Button:
+                text: "Clear"
+                font_size: "20sp"
+                on_press: app.play_click()
+                on_release: root.clear_drawing()
+
+            Button:
+                text: "✓ Check"
+                font_size: "20sp"
+                on_press: app.play_click()
+                on_release: root.grade_current()
+
+            Button:
+                text: "Next"
+                font_size: "20sp"
+                on_press: app.play_click()
+                on_release: root.next_step()
+
+
+# --------------------------------------------------
+# GAME 3 SCREEN
+# --------------------------------------------------
+# Touch-through guide image so it never blocks drawing
+<GuideImage@Image>:
+    on_touch_down: False
+    on_touch_move: False
+    on_touch_up: False
+
+
+<Game3Screen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: dp(16)
+        spacing: dp(12)
+
+        canvas.before:
+            Rectangle:
+                source: "assets/images/backgrounds/main_bg.png"
+                pos: self.pos
+                size: self.size
+
+        BoxLayout:
+            size_hint_y: None
+            height: dp(90)
+            spacing: dp(10)
+            padding: [dp(6), dp(6), dp(6), dp(6)]
+
+            Button:
+                text: "< Back"
+                size_hint_x: None
+                width: dp(150)
+                on_press: app.play_click()
+                on_release: root.go_back()
+
+            Label:
+                id: stage_label
+                text: "Stage 1 / 2"
+                font_size: "22sp"
+                halign: "center"
+                valign: "middle"
+                text_size: self.size
+
+            BoxLayout:
+                orientation: "vertical"
+                size_hint_x: None
+                width: dp(300)
+                spacing: dp(2)
+
+                Label:
+                    id: avg_label
+                    text: "Avg: 0%"
+                    font_size: "22sp"
+                    halign: "right"
+                    valign: "middle"
+                    text_size: self.size
+
+                GridLayout:
+                    cols: 2
+                    size_hint_y: None
+                    height: dp(30)
+                    spacing: dp(10)
+
+                    Label:
+                        id: s1_label
+                        text: "S1: 0%"
+                        font_size: "16sp"
+                        halign: "center"
+                        valign: "middle"
+                        text_size: self.size
+
+                    Label:
+                        id: s2_label
+                        text: "S2: 0%"
+                        font_size: "16sp"
+                        halign: "center"
+                        valign: "middle"
+                        text_size: self.size
+
+        BoxLayout:
+            size_hint_y: None
+            height: dp(70)
+            spacing: dp(10)
+
+            BoxLayout:
+                id: color_row_1
+                spacing: dp(10)
+
+                Button:
+                    id: btn_color_1
+                    text: "Red"
+                    on_press: app.play_click(); root.pick_color_1()
+
+            BoxLayout:
+                id: color_row_2
+                spacing: dp(10)
+
+                Button:
+                    id: btn_color_2
+                    text: "Leaves"
+                    on_press: app.play_click(); root.pick_color_2()
+
+        # ---- DRAW AREA (stable) ----
+        FloatLayout:
+            id: stage_area
+            size_hint_y: 0.72
+
+            # white paper background (BEHIND)
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [22]
+
+            # COLORING (middle)
+            ColorPad:
+                id: color_pad
+                size_hint: 1, 1
+                pos_hint: {"x": 0, "y": 0}
+
+            # GUIDE (top) - touch-through
+            GuideImage:
+                id: guide_img
+                source: ""
+                allow_stretch: True
+                keep_ratio: False      # fill same area exactly, no weird sizing
+                size_hint: 1, 1
+                pos_hint: {"x": 0, "y": 0}
+
+        BoxLayout:
+            size_hint_y: None
+            height: dp(76)
+            spacing: dp(12)
+
+            Button:
+                text: "Clear"
+                font_size: "20sp"
+                on_press: app.play_click()
+                on_release: root.clear_coloring()
+
+            Button:
+                text: "✓ Check"
+                font_size: "20sp"
+                on_press: app.play_click()
+                on_release: root.grade_current()
+
+            Button:
+                text: "Next"
+                font_size: "20sp"
+                on_press: app.play_click()
+                on_release: root.next_stage()
